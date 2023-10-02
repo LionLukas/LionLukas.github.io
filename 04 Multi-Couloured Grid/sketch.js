@@ -22,19 +22,19 @@ function drawGrid() {
 
 function keyPressed() {
   drawGrid();
-  mouseisPressed();
 }
 
-function mouseisPressed(){
-  if(gridSpacing === 0){
-    gridSpacing + 2;
-  }
+function mousePressed(){
   if(mouseButton === LEFT){
-    gridSpacing = gridSpacing - 2;
+    gridSpacing = gridSpacing - 5;
+    if(gridSpacing <= 0){
+      gridSpacing = 5;
+    }
   }
   if(mouseButton === RIGHT){
-    gridSpacing = gridSpacing + 2;
+    gridSpacing = gridSpacing + 5;
   }
+  drawGrid();
 }
 
 function draw() {
