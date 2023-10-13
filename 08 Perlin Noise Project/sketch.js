@@ -9,6 +9,7 @@ let noiseShift = 0.01;
 let noiseShiftTime = 12;
 let noiseShiftMove = 0;
 let mountainTop;
+let x;
 // weezerBlue = (0, 182, 213)
 // jazzBerry = (176, 11, 105)
 
@@ -18,7 +19,7 @@ function setup() {
   rectMode(CORNERS);
   mountainTop = height;
 }
-let x;
+
 function generateTerrain() {
   // usses loops to draw side-by-side rectangles
   keyPressed();
