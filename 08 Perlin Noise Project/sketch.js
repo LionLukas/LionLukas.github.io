@@ -10,11 +10,13 @@ let noiseShiftTime = 12;
 let noiseShiftMove = 0;
 let mountainTop;
 let x;
+let average;
 let mountainX = 0;
 // weezerBlue = (0, 182, 213)
 // jazzBerry = (176, 11, 105)
 
 function setup() {
+  // Draws a background and sets up stuff for later
   createCanvas(windowWidth, windowHeight);
   background(175);
   rectMode(CORNERS);
@@ -22,15 +24,17 @@ function setup() {
 }
 
 function generateTerrain() {
-  // usses loops to draw side-by-side rectangles
+  // Creates the pink hill and draws a line where the average
+  // height is 
   keyPressed();
   mountainTop = 0;
   mountainX = 0;
   noiseShiftTime = noiseShiftMove;
+  average=0;
+  let count=0;
   for (x = 0; x < width; x += rectWidth) {
-    // All rects 100 pxls tall and Rand rect
     let rectHeight = noise(noiseShiftTime);
-    rectHeight = map(rectHeight,0,1,1,750);
+    rectHeight = map(rectHeight,0,1,1,1000);
     noiseShiftTime += noiseShift;
     stroke(176, 11, 105);
     fill(176, 11, 105);
@@ -39,11 +43,17 @@ function generateTerrain() {
       mountainTop = rectHeight;
       mountainX = x;
     }
-
+    average+=rectHeight;
+    count++;
   }
+  average/=count;
+  stroke(0, 182, 213);
+  line(0, height-average, width, height-average);
 }
 
 function keyPressed(){
+  // Lets the user control how big the width of th rectangles
+  // are 
   if (keyCode === LEFT_ARROW){
     rectWidth -= 1;
   }
@@ -56,6 +66,8 @@ function keyPressed(){
 }
 
 function drawFlag(x,y){
+  // Draws a flag that appears at the top of the tallest hill
+  // on screen
   strokeWeight(5);
   stroke(0, 182, 213);
   fill(0, 182, 213);
@@ -64,6 +76,7 @@ function drawFlag(x,y){
 }
 
 function draw(){
+  // Draws the functions bellow
   background(175);
   noiseShiftMove += 0.05;
   generateTerrain();
