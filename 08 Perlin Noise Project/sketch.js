@@ -10,6 +10,7 @@ let noiseShiftTime = 12;
 let noiseShiftMove = 0;
 let mountainTop;
 let x;
+let mountainX = 0;
 // weezerBlue = (0, 182, 213)
 // jazzBerry = (176, 11, 105)
 
@@ -23,22 +24,23 @@ function setup() {
 function generateTerrain() {
   // usses loops to draw side-by-side rectangles
   keyPressed();
+  mountainTop = 0;
+  mountainX = 0;
   noiseShiftTime = noiseShiftMove;
   for (x = 0; x < width; x += rectWidth) {
     // All rects 100 pxls tall and Rand rect
     let rectHeight = noise(noiseShiftTime);
-    rectHeight = map(rectHeight,0,1,1,500);
+    rectHeight = map(rectHeight,0,1,1,750);
     noiseShiftTime += noiseShift;
     stroke(176, 11, 105);
     fill(176, 11, 105);
-    rect(x, height, x + rectWidth, rectHeight);
-    if(rectHeight < mountainTop){
+    rect(x, height, x + rectWidth, height - rectHeight);
+    if(rectHeight > mountainTop){
       mountainTop = rectHeight;
-      //drawFlag(x,mountainTop);
+      mountainX = x;
     }
 
   }
-  //drawFlag(x,mountainTop);
 }
 
 function keyPressed(){
@@ -54,16 +56,16 @@ function keyPressed(){
 }
 
 function drawFlag(x,y){
-  strokeWeight(8);
+  strokeWeight(5);
   stroke(0, 182, 213);
   fill(0, 182, 213);
-  line(x,y,x,y + 10);
-  triangle(x,y,x + 5,y - 5,x - 5,y - 5);
+  line(x,y,x,y - 10);
+  triangle(x,y - 10,x + 10,y - 15,x,y - 20);
 }
 
 function draw(){
   background(175);
   noiseShiftMove += 0.05;
   generateTerrain();
-  drawFlag(x,mountainTop);
+  drawFlag(mountainX,height - mountainTop);
 }
