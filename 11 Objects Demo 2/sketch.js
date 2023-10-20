@@ -10,7 +10,6 @@ let reach = 150; // max line length
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-
 }
 
 function draw() {
