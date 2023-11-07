@@ -23,3 +23,9 @@ function drawGrid() {
     }
   }
 }
+
+function keyPressed(){
+  if( key === " "){
+    saveCanvas("Progress Image 1");
+  }
+}
