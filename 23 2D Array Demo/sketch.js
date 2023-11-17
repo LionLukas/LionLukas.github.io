@@ -5,29 +5,27 @@
 // with black or white tiles
 
 // Globals
-let grid =
-  [[0, 255, 0, 255, 255],
-    [255, 255, 0, 255, 255],
-    [255, 255, 255, 0, 255],
-    [0, 0, 0, 255, 0]];
-
+let grid =[];
 const NUM_ROWS = 4;
 const NUM_COLS = 5;
 let rectWidth = 50;
 let rectHeight = 50;
 let col;
 let row;
+let shiftSquare = 0;
 
 function setup() {
   createCanvas(rectWidth * NUM_COLS, rectHeight * NUM_ROWS);
+  randomStart();
 }
 
 function draw() {
   background(220);
   renderGrid();
+  overlay();
   col = getCurrentX();
   row = getCurrentY();
-  print(col,row);
+  winCondition();
 }
 
 function mousePressed() {
@@ -49,8 +47,33 @@ function mousePressed() {
   }
 }
 
+
 function winCondition(x,y){
-  
+  let result = 0;
+  for(let x = 0; x<5;x++){
+    for(let y = 0;y<4;y++){
+      if (grid[y][x] === 0){
+        result += 1;
+      }
+      else{
+        result -=1;
+      }
+    }
+  }
+  if (result === 20 || result === -20){
+    for(let x = 0; x<5;x++){
+      for(let y = 0;y<4;y++){
+        grid[y][x] = 0;
+      }
+    }
+    winText();
+  }
+}
+
+function winText(){
+  textSize(24);
+  fill(176,11,105);
+  text("You Win",NUM_COLS*15,NUM_ROWS*25);
 }
 
 function flip(x, y) {
@@ -79,5 +102,59 @@ function renderGrid() {
       fill(fillValue,);
       rect(x * rectWidth, y * rectHeight, rectWidth, rectHeight);
     }
+  }
+}
+
+function overlay(){
+  for (let x = 0; x < NUM_COLS; x++) {
+    for (let y = 0; y < NUM_ROWS; y++) {
+      if(x===col && y===row && keyIsDown(SHIFT)){
+        fill(0, 182, 213,100);
+        rect(x * rectWidth, y * rectHeight, rectWidth, rectHeight);
+      }
+      if (!keyIsDown(SHIFT)){
+        if(x===col && y===row){
+          fill(0, 182, 213,100);
+          rect(x * rectWidth, y * rectHeight, rectWidth, rectHeight);
+          rect((x+1) * rectWidth, y * rectHeight, rectWidth, rectHeight);
+          rect(x * rectWidth, (y+1) * rectHeight, rectWidth, rectHeight);
+          rect((x-1) * rectWidth, y * rectHeight, rectWidth, rectHeight);
+          rect(x * rectWidth, (y-1) * rectHeight, rectWidth, rectHeight);
+        }
+      }
+      if(shiftSquare === 1){
+        if(x===col && y===row && shiftSquare === 1){
+          rect(x * rectWidth, y * rectHeight, rectWidth, rectHeight);
+          rect((x+1) * rectWidth, (y+1) * rectHeight, rectWidth, rectHeight);
+          rect(x * rectWidth, (y-1) * rectHeight, rectWidth, rectHeight);
+          rect((x+1) * rectWidth, y * rectHeight, rectWidth, rectHeight);
+        }
+      }
+    }
+  }
+}
+
+function randomStart(){
+  for (let x = 0; x < NUM_ROWS;x++){
+    let tempGrid = [];
+    for (let y = 0; y < NUM_COLS;y++){
+      let r = floor(random(2));
+      if(r === 0){
+        tempGrid.push(0);
+      }
+      else if (r === 1){
+        tempGrid.push(255);
+      }
+    }
+    grid.push(tempGrid);
+  }   
+}
+
+function keyPressed(){
+  if (key === " " && shiftSquare === 0){
+    shiftSquare += 1;
+  }
+  else if (key === " " && shiftSquare === 1){
+    shiftSquare -= 1;
   }
 }
