@@ -4,28 +4,47 @@
 // making a tree with balloons on the ends of the branches
 
 // Globals 
-//let scale = 15;
+let treeScale = 15;
 
 function setup() {
+  // This function creates the canvas
   createCanvas(500, 500);
-  background(255);
 }
 
 function draw() {
-  drawTree(width/2, height*0.9, 90, 6);
+  // This function draws the tree
+  background(255);
+  randomSeed(99);
+  drawTree(width/2, height*0.9, 90, 7);
 }
 
-function drawLine( x1, y1, x2, y2, depth) {
-  //draw a line segment connecting (x1,y1) to (x2,y2)
+function drawLine( x1, y1, x2, y2) {
+  // This function draws the trunk 
   line(x1, y1, x2, y2);
 }
 
 function drawTree(x1, y1, angle, depth) {
-  if (depth > 0) {
-    let x2 = x1 + (cos(radians(angle))*depth*scale);
-    let y2 = y1 - (sin(radians(angle))*depth*scale);
-    drawLine(x1, y1, x2, y2, depth);
-    drawTree(x2, y2, angle-18, depth-1);
-    drawTree(x2, y2, angle+18, depth-1);
+  // This function draws the branches
+  // and the leaves on the branches
+  let depthValue = depth;
+  if(depth < 5){
+    drawLeaf(x1,y1,random(25)-(depthValue-depth));
   }
+  if (depth > 0) {
+    let offset = map(mouseX,0,width,0,25);
+    let x2 = x1 + cos(radians(angle))*depth*treeScale;
+    let y2 = y1 - sin(radians(angle))*depth*treeScale;
+    strokeWeight(depth-1);
+    drawLine(x1, y1, x2, y2);
+    drawTree(x2, y2, angle, depth-1);
+    drawTree(x2, y2, angle-offset, depth-1);
+    drawTree(x2, y2, angle+offset, depth-1);
+  }
+}
+
+function drawLeaf(x1,y1,size){
+  // This function draws the leaves
+  strokeWeight(1);
+  fill(random(255),random(255),random(255));
+  circle(x1,y1,size);
 }
