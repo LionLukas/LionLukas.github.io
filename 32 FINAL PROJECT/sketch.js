@@ -7,9 +7,11 @@
 // Globals
 let loadFinished = false;
 let txtSizeA = 32;
+let songOne;
+let songTwo;
 
 function preLoad(){
-  loadSound();
+  songOne = loadSound("song assets/...like_Clockwork-Qotsa");
 }
 
 function setup() {
