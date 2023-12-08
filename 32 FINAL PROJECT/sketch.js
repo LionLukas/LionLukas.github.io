@@ -9,17 +9,31 @@ let loadFinished = false;
 let txtSizeA = 32;
 let songOne;
 let songTwo;
+let hit;
+let loaded=0;
 
-function preLoad(){
-  songOne = loadSound("song assets/...like_Clockwork-Qotsa");
+function oneLoaded(){
+  loaded +=33.4;
 }
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  songOne = loadSound("song assets/Like_Clockwork-QOTSA.mp3", oneLoaded);
+  songTwo = loadSound("song assets/Kalopsia-QOTSA.mp3",oneLoaded);
+  hit = loadSound("song assets/note_hit.mp3",oneLoaded);
 }
 
 function draw() {
-  loadingScreen();
+  if(loadFinished === false){
+    loadingScreen();
+    if(loaded>=100){
+      loadFinished = true;
+    }
+  }
+  else{
+    menu();
+  }
 }
 
 function loadingScreen(){
@@ -40,6 +54,22 @@ function loadingScreen(){
   else{
     if(frameCount%10===0){
       txtSizeA++;
+    }
+  }
+  fill(255);
+  rect(width*0.1,height*0.7,width*0.8,50);
+  fill(175);
+  rect(width*0.1,height*0.7,map(loaded,0,100,0,width*0.8),50);
+  fill(0);
+  textSize(32);
+  text(floor(loaded) + "%",width/2,height*0.74);
+}
+
+function menu(){
+  background("#0a0d36");
+  function mouseIsClicked(){
+    if ( mouseX>width/2 && mouseY>height/2){
+      songOne.play();
     }
   }
 }
