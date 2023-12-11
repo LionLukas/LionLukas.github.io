@@ -6,10 +6,12 @@
 
 // Globals
 let loadFinished = false;
+let hit1;
+let hit2;
 let txtSizeA = 32;
 let songOne;
 let songTwo;
-let hit;
+let hitSound;
 let loaded=0;
 
 function oneLoaded(){
@@ -21,7 +23,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   songOne = loadSound("song assets/Like_Clockwork-QOTSA.mp3", oneLoaded);
   songTwo = loadSound("song assets/Kalopsia-QOTSA.mp3",oneLoaded);
-  hit = loadSound("song assets/note_hit.mp3",oneLoaded);
+  hitSound = loadSound("song assets/note_hit.mp3",oneLoaded);
 }
 
 function draw() {
@@ -58,7 +60,7 @@ function loadingScreen(){
   }
   fill(255);
   rect(width*0.1,height*0.7,width*0.8,50);
-  fill(175);
+  fill("#189BCC");
   rect(width*0.1,height*0.7,map(loaded,0,100,0,width*0.8),50);
   fill(0);
   textSize(32);
@@ -67,9 +69,15 @@ function loadingScreen(){
 
 function menu(){
   background("#0a0d36");
-  function mouseIsClicked(){
-    if ( mouseX>width/2 && mouseY>height/2){
-      songOne.play();
-    }
-  }
+  hit1 = collidePointRect(mouseX, mouseY, width*0.1, height*0.1, width*0.8,75);
+  stroke(hit1 ? 255 : 0); 
+  rect(width*0.1,height*0.1,width*0.8,75);
+  hit2 = collidePointRect(mouseX, mouseY, width*0.1, height*0.25, width*0.8,75);
+  stroke(hit2 ? 255 : 0);
+  rect(width*0.1,height*0.25,width*0.8,75);
+  stroke(255);
+  text("Queens Of The Stone Age",width*0.35,height*0.125);
+  text("...Like Clockwork",width*0.275,height*0.175);
+  text("Queens Of The Stone Age",width*0.35,height*0.275);
+  text("Kalopsia",width*0.2,height*0.325);
 }
