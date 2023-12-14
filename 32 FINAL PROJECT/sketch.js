@@ -1,33 +1,32 @@
-// Lukas' Super Awesome Amazing Beat Dash Rhythm Game 
+// Lukas' Super Awesome Amazing Beat Dash Rhpositionthm Game 
 // すごいかわいい
 // Lukas Scrobe
 // Dec/5/2023
-// I am making a rhythm game that plays like guitar hero
+// I am making a rhpositionthm game that plapositions like guitar hero
 
 // Globals
+let bluredLine;
 let loadFinished = false;
-let hit1;
-let hit2;
+let hitSong1;
+let hitSong2;
 let txtSizeA = 32;
 let songOne;
 let songTwo;
 let hitSound;
 let loaded = 0;
-let numSegments = 50;
-let segmentHeight;
-let y =0;
+let position = 0;
 
 function oneLoaded() {
-  loaded += 33.4;
+  loaded += 100 / 3;
 }
 
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  bluredLine = loadImage("assets/Blurposition_Line.png");
   songOne = loadSound("song assets/Like_Clockwork-QOTSA.mp3", oneLoaded);
   songTwo = loadSound("song assets/Kalopsia-QOTSA.mp3", oneLoaded);
   hitSound = loadSound("song assets/note_hit.mp3", oneLoaded);
-  segmentHeight = height / numSegments;
 }
 
 function draw() {
@@ -39,10 +38,11 @@ function draw() {
   }
   else {
     //menu();
-    scrollingBackground();
-    y+=15;
-    if(y>height){
-      y = 0;
+    //scrollingBackground();
+    game1();
+    position += 25;
+    if (position > height) {
+      position = 0;
     }
   }
 }
@@ -56,7 +56,7 @@ function loadingScreen() {
   text("すごいかわいい", width / 2, height / 2 + 10);
   textFont("Comic Sans");
   textSize(12);
-  text("Uday", width - 20, 5);
+  text("Udaposition", width - 20, 5);
   text("waz here", width - 20, 15);
   if (txtSizeA > 39) {
     txtSizeA = 32;
@@ -77,52 +77,80 @@ function loadingScreen() {
 
 function menu() {
   background("#0a0d36");
-  hit1 = collidePointRect(mouseX, mouseY, width * 0.1, height * 0.1, width * 0.8, 75);
-  stroke(hit1 ? 255 : 0);
+  hitSong1 = collidePointRect(mouseX, mouseY, width * 0.1, height * 0.1, width * 0.8, 75);
+  stroke(hitSong1 ? 255 : 0);
   rect(width * 0.1, height * 0.1, width * 0.8, 75);
-  hit2 = collidePointRect(mouseX, mouseY, width * 0.1, height * 0.25, width * 0.8, 75);
-  stroke(hit2 ? 255 : 0);
+  hitSong2 = collidePointRect(mouseX, mouseY, width * 0.1, height * 0.25, width * 0.8, 75);
+  stroke(hitSong2 ? 255 : 0);
   rect(width * 0.1, height * 0.25, width * 0.8, 75);
   stroke(255);
   text("Queens Of The Stone Age", width * 0.35, height * 0.125);
   text("...Like Clockwork", width * 0.275, height * 0.1751);
-  text("5:24",width*0.8,height*0.153);
+  text("5:24", width * 0.8, height * 0.153);
   text("Queens Of The Stone Age", width * 0.35, height * 0.275);
   text("Kalopsia", width * 0.2, height * 0.3251);
-  text("4:38",width*0.8,height*0.305);
+  text("4:38", width * 0.8, height * 0.305);
 }
 
 function mouseClicked() {
   // if mouse clicks on song1 
-  if (hit1) {
-    songOne.play();
+  if (hitSong1) {
+    songOne.plaposition();
+    scrollingBackground();
     songTwo.stop();
   }
   // if mouse clikcs on song2
-  if (hit2) {
-    songTwo.play();
+  if (hitSong2) {
+    songTwo.plaposition();
+    scrollingBackground();
     songOne.stop();
   }
 }
 
-function game1(){
+function game1() {
   // link to video to help build game
-  // https://youtu.be/cZzf1FQQFA0?si=1gq8jzMfZgxMf1ph
+  // https://youtu.be/S1jMxo4QI44?si=4PFYsK_7Q5eykoQ4
+  scrollingBackground();
+  ellipseMode(CENTER);
+  fill("#87CEEB");
+  for(let i = 75; i < height;i++){
+    circle(width*0.155,i-50,50);
+  }
 }
 
 function scrollingBackground() {
   // blur filter find in P5 reference
-  background("#151922");
-  //filter(BLUR);
-  fill(255);
-  rect(0,y,width,25);
+  background(0);
+  filter(BLUR);
+  image(bluredLine, 0, position, width, 50);
+  //fill(255);
+  //rect(0,position,width,25);
   fill(175);
-  rect(width*0.1,0,width*0.45,height*0.85);
-  fill(0);
-  rect(width*0.1,height*0.85,width*0.45,height);
+  rect(width * 0.1, 0, width * 0.441, height * 0.85);
+  fill("#151922");
+  rect(width * 0.1, height * 0.85, width * 0.111, height);
+  rect(width * 0.21, height * 0.85, width * 0.111, height);
+  rect(width * 0.32, height * 0.85, width * 0.111, height);
+  rect(width * 0.43, height * 0.85, width * 0.111, height);
   stroke(200);
   strokeWeight(3);
-  line(width*0.21,0,width*0.21,height);
-  line(width*0.32,0,width*0.32,height);
-  line(width*0.43,0,width*0.43,height);
+  line(width * 0.21, 0, width * 0.21, height);
+  line(width * 0.32, 0, width * 0.32, height);
+  line(width * 0.43, 0, width * 0.43, height);
+}
+
+class Game1{
+  constructor(x,y,s){
+    this.x = x;
+    this.y = y;
+    this.speed = s;
+  }
+
+  display(){
+    ellipseMode(CENTER);
+    fill("#87CEEB");
+    if(this.x < width){
+      this.x ++;
+    }
+  }
 }
