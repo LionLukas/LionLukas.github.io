@@ -5,6 +5,9 @@
 // I am making a rhpositionthm game that plapositions like guitar hero
 
 // Globals
+let songOneNotes = [];
+let songTwoNotes = [];
+let score = 0;
 let bluredLine;
 let loadFinished = false;
 let hitSong1;
@@ -23,7 +26,7 @@ function oneLoaded() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  bluredLine = loadImage("assets/Blurposition_Line.png");
+  bluredLine = loadImage("assets/Blury_Line.png");
   songOne = loadSound("song assets/Like_Clockwork-QOTSA.mp3", oneLoaded);
   songTwo = loadSound("song assets/Kalopsia-QOTSA.mp3", oneLoaded);
   hitSound = loadSound("song assets/note_hit.mp3", oneLoaded);
@@ -40,6 +43,8 @@ function draw() {
     //menu();
     //scrollingBackground();
     game1();
+    songOneNotes.push(new Game1(width*0.265,0));
+    songOneNotes.display();
     position += 25;
     if (position > height) {
       position = 0;
@@ -95,14 +100,14 @@ function menu() {
 function mouseClicked() {
   // if mouse clicks on song1 
   if (hitSong1) {
-    songOne.plaposition();
-    scrollingBackground();
+    songOne.play();
+    game1;
     songTwo.stop();
   }
   // if mouse clikcs on song2
   if (hitSong2) {
-    songTwo.plaposition();
-    scrollingBackground();
+    songTwo.play();
+    game1();
     songOne.stop();
   }
 }
@@ -113,9 +118,6 @@ function game1() {
   scrollingBackground();
   ellipseMode(CENTER);
   fill("#87CEEB");
-  for(let i = 75; i < height;i++){
-    circle(width*0.155,i-50,50);
-  }
 }
 
 function scrollingBackground() {
@@ -139,11 +141,18 @@ function scrollingBackground() {
   line(width * 0.43, 0, width * 0.43, height);
 }
 
+function keyPressed(){
+  if (key === "s"){
+    score += 25;
+    print(score);
+  }
+}
+
 class Game1{
-  constructor(x,y,s){
+  constructor(x,y){
     this.x = x;
     this.y = y;
-    this.speed = s;
+    this.s = 5;
   }
 
   display(){
@@ -151,6 +160,13 @@ class Game1{
     fill("#87CEEB");
     if(this.x < width){
       this.x ++;
+    }
+  }
+
+  move(){
+    this.y + this.s;
+    if(this.y > height + width*0.265){
+      this.y = 0;
     }
   }
 }
