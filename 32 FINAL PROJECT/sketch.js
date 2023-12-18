@@ -41,10 +41,10 @@ function draw() {
   }
   else {
     //menu();
-    //scrollingBackground();
-    game1();
-    songOneNotes.push(new Game1(width*0.265,0));
-    songOneNotes.display();
+    scrollingBackground();
+    songOneNotes.push(new Game1(width * 0.265, 0));
+    songOneNotes[0].display();
+    songOneNotes[0].move();
     position += 25;
     if (position > height) {
       position = 0;
@@ -101,24 +101,17 @@ function mouseClicked() {
   // if mouse clicks on song1 
   if (hitSong1) {
     songOne.play();
-    game1;
     songTwo.stop();
   }
   // if mouse clikcs on song2
   if (hitSong2) {
     songTwo.play();
-    game1();
     songOne.stop();
   }
 }
 
-function game1() {
-  // link to video to help build game
-  // https://youtu.be/S1jMxo4QI44?si=4PFYsK_7Q5eykoQ4
-  scrollingBackground();
-  ellipseMode(CENTER);
-  fill("#87CEEB");
-}
+// link to video to help build game
+// https://youtu.be/S1jMxo4QI44?si=4PFYsK_7Q5eykoQ4
 
 function scrollingBackground() {
   // blur filter find in P5 reference
@@ -141,32 +134,37 @@ function scrollingBackground() {
   line(width * 0.43, 0, width * 0.43, height);
 }
 
-function keyPressed(){
-  if (key === "s"){
-    score += 25;
-    print(score);
-  }
-}
-
-class Game1{
-  constructor(x,y){
+class Game1 {
+  constructor(x, y) {
     this.x = x;
     this.y = y;
     this.s = 5;
+    this.hit = false;
+    this.delete = false;
   }
 
-  display(){
+  display() {
     ellipseMode(CENTER);
     fill("#87CEEB");
-    if(this.x < width){
-      this.x ++;
-    }
+    ellipse(this.x, this.y, 45);
   }
 
-  move(){
-    this.y + this.s;
-    if(this.y > height + width*0.265){
-      this.y = 0;
+  move() {
+    text(score,width*0.75,height*0.2);
+    this.y += this.s;
+    if (this.y > height + 45/2) {
+      this.delete = true;
+    }
+    if (keyIsPressed === true){
+      if(key ==="s"){
+        if(this.y >=height * 0.85){
+          if(this.hit=== false){
+            this.hit=true;
+            score += 25;
+            this.delete = true;
+          }
+        }
+      }
     }
   }
 }
