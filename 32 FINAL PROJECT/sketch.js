@@ -42,9 +42,16 @@ function draw() {
   else {
     //menu();
     scrollingBackground();
-    songOneNotes.push(new Game1(width * 0.265, 0));
-    songOneNotes[0].display();
-    songOneNotes[0].move();
+    if (frameCount % 100 === 0) {
+      songOneNotes.push(new Game1(width * 0.155, 0));
+      songOneNotes.push(new Game1(width * 0.265, 0));
+      //songOneNotes.push(new Game1(width * 0.375, 0));
+      //songOneNotes.push(new Game1(width * 0.485, 0));
+    }
+    for (let i = 0; i < songOneNotes.length; i++) {
+      songOneNotes[i].display();
+      songOneNotes[i].move();
+    }
     position += 25;
     if (position > height) {
       position = 0;
@@ -61,7 +68,7 @@ function loadingScreen() {
   text("すごいかわいい", width / 2, height / 2 + 10);
   textFont("Comic Sans");
   textSize(12);
-  text("Udaposition", width - 20, 5);
+  text("Uday", width - 20, 5);
   text("waz here", width - 20, 15);
   if (txtSizeA > 39) {
     txtSizeA = 32;
@@ -150,21 +157,51 @@ class Game1 {
   }
 
   move() {
-    text(score,width*0.75,height*0.2);
+    text(score, width * 0.75, height * 0.2);
     this.y += this.s;
-    if (this.y > height + 45/2) {
+    if (this.y > height + 45 / 2) {
       this.delete = true;
     }
-    if (keyIsPressed === true){
-      if(key ==="s"){
-        if(this.y >=height * 0.85){
-          if(this.hit=== false){
-            this.hit=true;
+    if (keyIsPressed === true) {
+      if (key === "s") {
+        if (this.y >= height * 0.85 && width * 0.1 <= this.x && this.x <= width * 0.21) {
+          if (this.hit === false) {
+            this.hit = true;
             score += 25;
             this.delete = true;
           }
         }
       }
+      if (key === "d") {
+        if (this.y >= height * 0.85 && width * 0.21 <= this.x && this.x <= width * 0.32) {
+          if (this.hit === false) {
+            this.hit = true;
+            score += 25;
+            this.delete = true;
+          }
+        }
+      }
+      if (key === "k") {
+        if (this.y >= height * 0.85 && width * 0.32 <= this.x && this.x <= width * 0.43) {
+          if (this.hit === false) {
+            this.hit = true;
+            score += 25;
+            this.delete = true;
+          }
+        }
+      }
+      if (key === "l") {
+        if (this.y >= height * 0.85 && width * 0.43 <= this.x && this.x <= width * 0.54) {
+          if (this.hit === false) {
+            this.hit = true;
+            score += 25;
+            this.delete = true;
+          }
+        }
+      }
+    }
+    if (this.delete === true) {
+      songOneNotes.shift(0);
     }
   }
 }
