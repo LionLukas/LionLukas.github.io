@@ -8,6 +8,7 @@
 let songOneNotes = [];
 let songTwoNotes = [];
 let score = 0;
+let multiplier = 1.0;
 let bluredLine;
 let loadFinished = false;
 let hitSong1;
@@ -30,6 +31,7 @@ function setup() {
   songOne = loadSound("song assets/Like_Clockwork-QOTSA.mp3", oneLoaded);
   songTwo = loadSound("song assets/Kalopsia-QOTSA.mp3", oneLoaded);
   hitSound = loadSound("song assets/note_hit.mp3", oneLoaded);
+  frameRate(120);
 }
 
 function draw() {
@@ -45,8 +47,8 @@ function draw() {
     if (frameCount % 100 === 0) {
       songOneNotes.push(new Game1(width * 0.155, 0));
       songOneNotes.push(new Game1(width * 0.265, 0));
-      //songOneNotes.push(new Game1(width * 0.375, 0));
-      //songOneNotes.push(new Game1(width * 0.485, 0));
+      songOneNotes.push(new Game1(width * 0.375, 0));
+      songOneNotes.push(new Game1(width * 0.485, 0));
     }
     for (let i = 0; i < songOneNotes.length; i++) {
       songOneNotes[i].display();
@@ -131,9 +133,13 @@ function scrollingBackground() {
   rect(width * 0.1, 0, width * 0.441, height * 0.85);
   fill("#151922");
   rect(width * 0.1, height * 0.85, width * 0.111, height);
+  text("s",width*0.155,height*0.95);
   rect(width * 0.21, height * 0.85, width * 0.111, height);
+  text("d",width*0.265,height*0.95);
   rect(width * 0.32, height * 0.85, width * 0.111, height);
+  text("k",width*0.375,height*0.95);
   rect(width * 0.43, height * 0.85, width * 0.111, height);
+  text("l",width*0.485,height*0.95);
   stroke(200);
   strokeWeight(3);
   line(width * 0.21, 0, width * 0.21, height);
@@ -166,6 +172,7 @@ class Game1 {
       if (key === "s") {
         if (this.y >= height * 0.85 && width * 0.1 <= this.x && this.x <= width * 0.21) {
           if (this.hit === false) {
+            hitSound.play();
             this.hit = true;
             score += 25;
             this.delete = true;
@@ -175,6 +182,7 @@ class Game1 {
       if (key === "d") {
         if (this.y >= height * 0.85 && width * 0.21 <= this.x && this.x <= width * 0.32) {
           if (this.hit === false) {
+            hitSound.play();
             this.hit = true;
             score += 25;
             this.delete = true;
@@ -184,6 +192,7 @@ class Game1 {
       if (key === "k") {
         if (this.y >= height * 0.85 && width * 0.32 <= this.x && this.x <= width * 0.43) {
           if (this.hit === false) {
+            //hitSound.play();
             this.hit = true;
             score += 25;
             this.delete = true;
@@ -193,6 +202,7 @@ class Game1 {
       if (key === "l") {
         if (this.y >= height * 0.85 && width * 0.43 <= this.x && this.x <= width * 0.54) {
           if (this.hit === false) {
+            hitSound.play();
             this.hit = true;
             score += 25;
             this.delete = true;
