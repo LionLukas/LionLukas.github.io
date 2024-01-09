@@ -46,9 +46,9 @@ function draw() {
     scrollingBackground();
     if (frameCount % 100 === 0) {
       songOneNotes.push(new Game1(width * 0.155, 0));
-      songOneNotes.push(new Game1(width * 0.265, 0));
-      songOneNotes.push(new Game1(width * 0.375, 0));
-      songOneNotes.push(new Game1(width * 0.485, 0));
+      //songOneNotes.push(new Game1(width * 0.265, 0));
+      //songOneNotes.push(new Game1(width * 0.375, 0));
+      //songOneNotes.push(new Game1(width * 0.485, 0));
     }
     for (let i = 0; i < songOneNotes.length; i++) {
       songOneNotes[i].display();
@@ -119,16 +119,9 @@ function mouseClicked() {
   }
 }
 
-// link to video to help build game
-// https://youtu.be/S1jMxo4QI44?si=4PFYsK_7Q5eykoQ4
-
 function scrollingBackground() {
-  // blur filter find in P5 reference
   background(0);
   filter(BLUR);
-  image(bluredLine, 0, position, width, 50);
-  //fill(255);
-  //rect(0,position,width,25);
   fill(175);
   rect(width * 0.1, 0, width * 0.441, height * 0.85);
   fill("#151922");
@@ -145,13 +138,17 @@ function scrollingBackground() {
   line(width * 0.21, 0, width * 0.21, height);
   line(width * 0.32, 0, width * 0.32, height);
   line(width * 0.43, 0, width * 0.43, height);
+  line(width*0.1,position,width*0.54,position);
+  //image(bluredLine, width*0.1, position, width*0.43, 50);
+  text(score, width * 0.75, height * 0.2);
+  text(multiplier.toFixed(2),width*0.75,height*0.3);
 }
 
 class Game1 {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.s = 5;
+    this.s = 20;
     this.hit = false;
     this.delete = false;
   }
@@ -163,10 +160,10 @@ class Game1 {
   }
 
   move() {
-    text(score, width * 0.75, height * 0.2);
     this.y += this.s;
     if (this.y > height + 45 / 2) {
       this.delete = true;
+      multiplier = 1.0;
     }
     if (keyIsPressed === true) {
       if (key === "s") {
@@ -174,7 +171,8 @@ class Game1 {
           if (this.hit === false) {
             hitSound.play();
             this.hit = true;
-            score += 25;
+            floor(score += 25*multiplier);
+            multiplier += 0.15;
             this.delete = true;
           }
         }
@@ -184,7 +182,8 @@ class Game1 {
           if (this.hit === false) {
             hitSound.play();
             this.hit = true;
-            score += 25;
+            floor(score += 25*multiplier);
+            multiplier += 0.15;
             this.delete = true;
           }
         }
@@ -194,7 +193,8 @@ class Game1 {
           if (this.hit === false) {
             //hitSound.play();
             this.hit = true;
-            score += 25;
+            floor(score += 25*multiplier);
+            multiplier += 0.15;
             this.delete = true;
           }
         }
@@ -204,7 +204,8 @@ class Game1 {
           if (this.hit === false) {
             hitSound.play();
             this.hit = true;
-            score += 25;
+            floor(score += 25*multiplier);
+            multiplier += 0.15;
             this.delete = true;
           }
         }
@@ -215,3 +216,5 @@ class Game1 {
     }
   }
 }
+
+// like clockwork is 57 bpm and 1.05263157895 spb
