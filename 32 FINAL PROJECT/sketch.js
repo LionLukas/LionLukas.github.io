@@ -31,7 +31,7 @@ function setup() {
   songOne = loadSound("song assets/Like_Clockwork-QOTSA.mp3", oneLoaded);
   songTwo = loadSound("song assets/Kalopsia-QOTSA.mp3", oneLoaded);
   hitSound = loadSound("song assets/note_hit.mp3", oneLoaded);
-  frameRate(120);
+  frameRate(57);
 }
 
 function draw() {
@@ -54,7 +54,7 @@ function draw() {
       songOneNotes[i].display();
       songOneNotes[i].move();
     }
-    position += 25;
+    position += 20;
     if (position > height) {
       position = 0;
     }
@@ -139,9 +139,10 @@ function scrollingBackground() {
   line(width * 0.32, 0, width * 0.32, height);
   line(width * 0.43, 0, width * 0.43, height);
   line(width*0.1,position,width*0.54,position);
-  //image(bluredLine, width*0.1, position, width*0.43, 50);
   text(score, width * 0.75, height * 0.2);
   text(multiplier.toFixed(2),width*0.75,height*0.3);
+  let songOneLength = songOne.duration()/60 - 0.17 ;
+  text("Duration:" + songOneLength.toFixed(2),width*0.75,height*0.1);
 }
 
 class Game1 {
@@ -218,3 +219,14 @@ class Game1 {
 }
 
 // like clockwork is 57 bpm and 1.05263157895 spb
+// addCue to songOne every 1.053 seconds
+//Half note               =  120 / BPM
+//Quarter note            =   60 / BPM
+//Eighth note             =   30 / BPM
+//Sixteenth note          =   15 / BPM
+//Dotted-quarter note     =   90 / BPM
+//Dotted-eighth note      =   45 / BPM
+//Dotted-sixteenth note   = 22.5 / BPM
+//Triplet-quarter note    =   40 / BPM
+//Triplet-eighth note     =   20 / BPM
+//Triplet-sixteenth note  =   10 / BPM
