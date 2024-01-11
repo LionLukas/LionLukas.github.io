@@ -19,6 +19,7 @@ let songTwo;
 let hitSound;
 let loaded = 0;
 let position = 0;
+const BPM = 57;
 
 function oneLoaded() {
   loaded += 100 / 3;
@@ -44,20 +45,32 @@ function draw() {
   else {
     //menu();
     scrollingBackground();
-    if (frameCount % 100 === 0) {
-      songOneNotes.push(new Game1(width * 0.155, 0));
-      //songOneNotes.push(new Game1(width * 0.265, 0));
-      //songOneNotes.push(new Game1(width * 0.375, 0));
-      //songOneNotes.push(new Game1(width * 0.485, 0));
+    if(frameCount % BPM ===0){
+      songOne.addCue(0,songOneNotes.push(new Game1(width * 0.155, 0)));
+      songOne.addCue(0,songOneNotes.push(new Game1(width * 0.375, 0)));
+      songOne.addCue(0,songOneNotes.push(new Game1(width * 0.485, 0)));
     }
+    //if(frameCount %100 === 0){
+    //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.155, 0)));
+    //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.375, 0)));
+    //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.485, 0)));
+    //}
+    //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.155, 0)));
+    //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.375, 0)));
+    //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.485, 0)));
+    //songOneNotes.push(new Game1(width * 0.155, 0));
+    //songOneNotes.push(new Game1(width * 0.265, 0));
+    //songOneNotes.push(new Game1(width * 0.375, 0));
+    //songOneNotes.push(new Game1(width * 0.485, 0));
+    // position += 20;
+    // if (position > height) {
+    //   position = 0;
+    // }
     for (let i = 0; i < songOneNotes.length; i++) {
       songOneNotes[i].display();
       songOneNotes[i].move();
     }
-    position += 20;
-    if (position > height) {
-      position = 0;
-    }
+    
   }
 }
 
@@ -139,17 +152,27 @@ function scrollingBackground() {
   line(width * 0.32, 0, width * 0.32, height);
   line(width * 0.43, 0, width * 0.43, height);
   line(width*0.1,position,width*0.54,position);
+  
+  position += height/BPM;
+  if (position > height) {
+    position = 0;
+  }
   text(score, width * 0.75, height * 0.2);
   text(multiplier.toFixed(2),width*0.75,height*0.3);
   let songOneLength = songOne.duration()/60 - 0.17 ;
   text("Duration:" + songOneLength.toFixed(2),width*0.75,height*0.1);
+
+  
+  //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.155, 0)));
+  //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.375, 0)));
+  //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.485, 0)));
 }
 
 class Game1 {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.s = 20;
+    this.s = height/BPM;
     this.hit = false;
     this.delete = false;
   }
@@ -162,7 +185,7 @@ class Game1 {
 
   move() {
     this.y += this.s;
-    if (this.y > height + 45 / 2) {
+    if (this.y > height + +(45 / 2)) {
       this.delete = true;
       multiplier = 1.0;
     }
