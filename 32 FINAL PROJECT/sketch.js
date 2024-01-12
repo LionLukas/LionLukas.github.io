@@ -1,8 +1,8 @@
-// Lukas' Super Awesome Amazing Beat Dash Rhpositionthm Game 
+// Lukas' Super Awesome Amazing Beat Dash Rhythm Game 
 // すごいかわいい
 // Lukas Scrobe
 // Dec/5/2023
-// I am making a rhpositionthm game that plapositions like guitar hero
+// I am making a rhythm game that playns like guitar hero
 
 // Globals
 let songOneNotes = [];
@@ -20,6 +20,7 @@ let hitSound;
 let loaded = 0;
 let position = 0;
 const BPM = 57;
+const SPB = 1.053;
 
 function oneLoaded() {
   loaded += 100 / 3;
@@ -45,27 +46,8 @@ function draw() {
   else {
     //menu();
     scrollingBackground();
-    if(frameCount % BPM ===0){
-      songOne.addCue(0,songOneNotes.push(new Game1(width * 0.155, 0)));
-      songOne.addCue(0,songOneNotes.push(new Game1(width * 0.375, 0)));
-      songOne.addCue(0,songOneNotes.push(new Game1(width * 0.485, 0)));
-    }
-    //if(frameCount %100 === 0){
-    //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.155, 0)));
-    //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.375, 0)));
-    //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.485, 0)));
-    //}
-    //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.155, 0)));
-    //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.375, 0)));
-    //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.485, 0)));
-    //songOneNotes.push(new Game1(width * 0.155, 0));
-    //songOneNotes.push(new Game1(width * 0.265, 0));
-    //songOneNotes.push(new Game1(width * 0.375, 0));
-    //songOneNotes.push(new Game1(width * 0.485, 0));
-    // position += 20;
-    // if (position > height) {
-    //   position = 0;
-    // }
+    cueSongOne;
+    songOne;
     for (let i = 0; i < songOneNotes.length; i++) {
       songOneNotes[i].display();
       songOneNotes[i].move();
@@ -152,7 +134,6 @@ function scrollingBackground() {
   line(width * 0.32, 0, width * 0.32, height);
   line(width * 0.43, 0, width * 0.43, height);
   line(width*0.1,position,width*0.54,position);
-  
   position += height/BPM;
   if (position > height) {
     position = 0;
@@ -164,8 +145,28 @@ function scrollingBackground() {
 
   
   //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.155, 0)));
+  //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.265, 0)));
   //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.375, 0)));
   //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.485, 0)));
+}
+
+function cueSongOne(){
+  songOne.addCue(0,songOneNotes.push(new Game1(width * 0.485, 0)));
+  songOne.addCue(SPB,songOneNotes.push(new Game1(width * 0.485, 0)));
+  songOne.addCue(SPB*2,songOneNotes.push(new Game1(width * 0.375, 0)));
+  songOne.addCue(SPB*3,songOneNotes.push(new Game1(width * 0.375, 0)));
+  songOne.addCue(SPB*4,songOneNotes.push(new Game1(width * 0.375, 0)));
+  songOne.addCue(SPB*5,songOneNotes.push(new Game1(width * 0.375, 0)));
+  songOne.addCue(SPB*6,songOneNotes.push(new Game1(width * 0.265, 0)));
+  songOne.addCue(SPB*7,songOneNotes.push(new Game1(width * 0.265, 0)));
+  songOne.addCue(SPB*8,songOneNotes.push(new Game1(width * 0.155, 0)));
+  songOne.addCue(SPB*9,songOneNotes.push(new Game1(width * 0.155, 0)));
+  songOne.addCue(SPB*10,songOneNotes.push(new Game1(width * 0.155, 0)));
+  songOne.addCue(SPB*11,songOneNotes.push(new Game1(width * 0.155, 0)));
+  songOne.addCue(SPB*12,songOneNotes.push(new Game1(width * 0.155, 0)));
+  songOne.addCue(SPB*13,songOneNotes.push(new Game1(width * 0.155, 0)));
+  songOne.addCue(SPB*14,songOneNotes.push(new Game1(width * 0.155, 0)));
+  songOne.addCue(SPB*15,songOneNotes.push(new Game1(width * 0.155, 0)));
 }
 
 class Game1 {
