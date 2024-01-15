@@ -9,7 +9,6 @@ let songOneNotes = [];
 let songTwoNotes = [];
 let score = 0;
 let multiplier = 1.0;
-let bluredLine;
 let loadFinished = false;
 let hitSong1;
 let hitSong2;
@@ -19,6 +18,7 @@ let songTwo;
 let hitSound;
 let loaded = 0;
 let position = 0;
+let menuIs = true;
 const BPM = 57;
 const SPB = 1.053;
 
@@ -29,7 +29,6 @@ function oneLoaded() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  bluredLine = loadImage("assets/Blury_Line.png");
   songOne = loadSound("song assets/Like_Clockwork-QOTSA.mp3", oneLoaded);
   songTwo = loadSound("song assets/Kalopsia-QOTSA.mp3", oneLoaded);
   hitSound = loadSound("song assets/note_hit.mp3", oneLoaded);
@@ -44,15 +43,7 @@ function draw() {
     }
   }
   else {
-    //menu();
-    scrollingBackground();
-    cueSongOne;
-    songOne;
-    for (let i = 0; i < songOneNotes.length; i++) {
-      songOneNotes[i].display();
-      songOneNotes[i].move();
-    }
-    
+    loadTrack();
   }
 }
 
@@ -101,14 +92,34 @@ function menu() {
   text("4:38", width * 0.8, height * 0.305);
 }
 
+function loadTrack(){
+  if (menuIs === true){
+    menu();
+  }
+  else{
+    scrollingBackground();
+    for (let i = 0; i < songOneNotes.length; i++) {
+      songOneNotes[i].display();
+      songOneNotes[i].move();
+    }
+  }
+}
+
 function mouseClicked() {
   // if mouse clicks on song1 
   if (hitSong1) {
+    menuIs = false;
+    for (let i = 0; i < songOneNotes.length; i++) {
+      songOneNotes[i].display();
+      songOneNotes[i].move();
+    }
+    cueSongOne();
     songOne.play();
     songTwo.stop();
   }
   // if mouse clikcs on song2
   if (hitSong2) {
+    scrollingBackground();
     songTwo.play();
     songOne.stop();
   }
@@ -151,22 +162,42 @@ function scrollingBackground() {
 }
 
 function cueSongOne(){
-  songOne.addCue(0,songOneNotes.push(new Game1(width * 0.485, 0)));
-  songOne.addCue(SPB,songOneNotes.push(new Game1(width * 0.485, 0)));
-  songOne.addCue(SPB*2,songOneNotes.push(new Game1(width * 0.375, 0)));
-  songOne.addCue(SPB*3,songOneNotes.push(new Game1(width * 0.375, 0)));
-  songOne.addCue(SPB*4,songOneNotes.push(new Game1(width * 0.375, 0)));
-  songOne.addCue(SPB*5,songOneNotes.push(new Game1(width * 0.375, 0)));
-  songOne.addCue(SPB*6,songOneNotes.push(new Game1(width * 0.265, 0)));
-  songOne.addCue(SPB*7,songOneNotes.push(new Game1(width * 0.265, 0)));
-  songOne.addCue(SPB*8,songOneNotes.push(new Game1(width * 0.155, 0)));
-  songOne.addCue(SPB*9,songOneNotes.push(new Game1(width * 0.155, 0)));
-  songOne.addCue(SPB*10,songOneNotes.push(new Game1(width * 0.155, 0)));
-  songOne.addCue(SPB*11,songOneNotes.push(new Game1(width * 0.155, 0)));
-  songOne.addCue(SPB*12,songOneNotes.push(new Game1(width * 0.155, 0)));
-  songOne.addCue(SPB*13,songOneNotes.push(new Game1(width * 0.155, 0)));
-  songOne.addCue(SPB*14,songOneNotes.push(new Game1(width * 0.155, 0)));
-  songOne.addCue(SPB*15,songOneNotes.push(new Game1(width * 0.155, 0)));
+  songOne.addCue(0,createLane4);
+  songOne.addCue(SPB,createLane4);
+  songOne.addCue(SPB*2,createLane3);
+  songOne.addCue(SPB*3,createLane3);
+  songOne.addCue(SPB*4,createLane3);
+  songOne.addCue(SPB*5,createLane3);
+  songOne.addCue(SPB*6,createLane2);
+  songOne.addCue(SPB*7,createLane2);
+  songOne.addCue(SPB*8,createLane1);
+  songOne.addCue(SPB*9,createLane1);
+  songOne.addCue(SPB*10,createLane1);
+  songOne.addCue(SPB*11,createLane1);
+  songOne.addCue(SPB*12,createLane1);
+  songOne.addCue(SPB*13,createLane1);
+  songOne.addCue(SPB*14,createLane1);
+  songOne.addCue(SPB*15,createLane1);
+}
+
+function createLane1(){
+  songOneNotes.push(new Game1(width * 0.155, 0));
+  print("Lane 1 Cued");
+}
+
+function createLane2(){
+  songOneNotes.push(new Game1(width * 0.265, 0));
+  print("Lane 2 Cued");
+}
+
+function createLane3(){
+  songOneNotes.push(new Game1(width * 0.375, 0));
+  print("Lane 3 Cued");
+}
+
+function createLane4(){
+  songOneNotes.push(new Game1(width * 0.485, 0));
+  print("Lane 4 Cued");
 }
 
 class Game1 {
@@ -216,7 +247,7 @@ class Game1 {
       if (key === "k") {
         if (this.y >= height * 0.85 && width * 0.32 <= this.x && this.x <= width * 0.43) {
           if (this.hit === false) {
-            //hitSound.play();
+            hitSound.play();
             this.hit = true;
             floor(score += 25*multiplier);
             multiplier += 0.15;
