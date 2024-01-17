@@ -18,6 +18,7 @@ let songTwo;
 let hitSound;
 let loaded = 0;
 let position = 0;
+//let timer = 0;
 let menuIs = true;
 const BPM = 57;
 const SPB = 1.053;
@@ -153,17 +154,11 @@ function scrollingBackground() {
   text(multiplier.toFixed(2),width*0.75,height*0.3);
   let songOneLength = songOne.duration()/60 - 0.17 ;
   text("Duration:" + songOneLength.toFixed(2),width*0.75,height*0.1);
-
-  
-  //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.155, 0)));
-  //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.265, 0)));
-  //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.375, 0)));
-  //songOne.addCue(0,songOneNotes.push(new Game1(width * 0.485, 0)));
 }
 
 function cueSongOne(){
   songOne.addCue(0,createLane4);
-  songOne.addCue(SPB,createLane4);
+  songOne.addCue(SPB*1,createLane4);
   songOne.addCue(SPB*2,createLane3);
   songOne.addCue(SPB*3,createLane3);
   songOne.addCue(SPB*4,createLane3);
@@ -178,6 +173,75 @@ function cueSongOne(){
   songOne.addCue(SPB*13,createLane1);
   songOne.addCue(SPB*14,createLane1);
   songOne.addCue(SPB*15,createLane1);
+  songOne.addCue(SPB*16,createLane4);
+  songOne.addCue(SPB*17,createLane4);
+  songOne.addCue(SPB*18,createLane3);
+  songOne.addCue(SPB*19,createLane3);
+  songOne.addCue(SPB*20,createLane3);
+  songOne.addCue(SPB*21,createLane3);
+  songOne.addCue(SPB*22,createLane2);
+  songOne.addCue(SPB*23,createLane2);
+  songOne.addCue(SPB*24,createLane1);
+  songOne.addCue(SPB*25,createLane1);
+  songOne.addCue(SPB*26,createLane1);
+  songOne.addCue(SPB*27,createLane1);
+  songOne.addCue(SPB*28,createLane1);
+  songOne.addCue(SPB*29,createLane1);
+  songOne.addCue(SPB*30,createLane1);
+  songOne.addCue(SPB*31,createLane1);
+  songOne.addCue(SPB*32,createLane4);
+  songOne.addCue(SPB*33,createLane4);
+  songOne.addCue(SPB*34,createLane3);
+  songOne.addCue(SPB*35,createLane3);
+  songOne.addCue(SPB*36,createLane3);
+  songOne.addCue(SPB*37,createLane3);
+  songOne.addCue(SPB*38,createLane2);
+  songOne.addCue(SPB*39,createLane2);
+  songOne.addCue(SPB*40,createLane1);
+  songOne.addCue(SPB*41,createLane1);
+  songOne.addCue(SPB*42,createLane1);
+  songOne.addCue(SPB*43,createLane1);
+  songOne.addCue(SPB*44,createLane1);
+  songOne.addCue(SPB*45,createLane1);
+  songOne.addCue(SPB*46,createLane1);
+  songOne.addCue(SPB*47,createLane1);
+  songOne.addCue(SPB*47.25,createLane3);
+  songOne.addCue(SPB*48,createLane4);
+  songOne.addCue(SPB*49,createLane4);
+  songOne.addCue(SPB*50,createLane3);
+  songOne.addCue(SPB*51,createLane3);
+  songOne.addCue(SPB*52,createLane3);
+  songOne.addCue(SPB*53,createLane3);
+  songOne.addCue(SPB*54,createLane2);
+  songOne.addCue(SPB*55,createLane2);
+  songOne.addCue(SPB*56,createLane1);
+  songOne.addCue(SPB*57,createLane1);
+  songOne.addCue(SPB*58,createLane1);
+  songOne.addCue(SPB*59,createLane1);
+  songOne.addCue(SPB*60,createLane1);
+  songOne.addCue(SPB*61,createLane1);
+  songOne.addCue(SPB*62,createLane1);
+  songOne.addCue(SPB*63,createLane1);
+  songOne.addCue(SPB*63.25,createLane3);
+  songOne.addCue(SPB*63.5,createLane2);
+  songOne.addCue(SPB*64,createLane4);
+  songOne.addCue(SPB*65,createLane4);
+  songOne.addCue(SPB*66,createLane3);
+  songOne.addCue(SPB*67,createLane3);
+  songOne.addCue(SPB*68,createLane3);
+  songOne.addCue(SPB*69,createLane3);
+  songOne.addCue(SPB*70,createLane2);
+  songOne.addCue(SPB*71,createLane2);
+  songOne.addCue(SPB*72,createLane1);
+  songOne.addCue(SPB*73,createLane1);
+  songOne.addCue(SPB*74,createLane1);
+  songOne.addCue(SPB*75,createLane1);
+  songOne.addCue(SPB*76,createLane1);
+  songOne.addCue(SPB*77,createLane1);
+  songOne.addCue(SPB*78,createLane1);
+  songOne.addCue(SPB*79,createLane1);
+  songOne.addCue(SPB*79.25,createLane3);
+  songOne.addCue(SPB*79.5,createLane2);
 }
 
 function createLane1(){
@@ -229,6 +293,9 @@ class Game1 {
             this.hit = true;
             floor(score += 25*multiplier);
             multiplier += 0.15;
+            if(multiplier >= 4){
+              multiplier = 4;
+            }
             this.delete = true;
           }
         }
@@ -240,6 +307,9 @@ class Game1 {
             this.hit = true;
             floor(score += 25*multiplier);
             multiplier += 0.15;
+            if(multiplier >= 4){
+              multiplier = 4;
+            }
             this.delete = true;
           }
         }
@@ -251,6 +321,9 @@ class Game1 {
             this.hit = true;
             floor(score += 25*multiplier);
             multiplier += 0.15;
+            if(multiplier >= 4){
+              multiplier = 4;
+            }
             this.delete = true;
           }
         }
@@ -262,6 +335,9 @@ class Game1 {
             this.hit = true;
             floor(score += 25*multiplier);
             multiplier += 0.15;
+            if(multiplier >= 4){
+              multiplier = 4;
+            }
             this.delete = true;
           }
         }
