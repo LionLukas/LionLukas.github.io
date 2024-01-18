@@ -16,12 +16,14 @@ let txtSizeA = 32;
 let songOne;
 let songTwo;
 let hitSound;
+let seconds = 0;
+let minutes = 0;
 let loaded = 0;
 let position = 0;
-//let timer = 0;
 let menuIs = true;
 const BPM = 57;
 const SPB = 1.053;
+let timerStart = 0;
 
 function oneLoaded() {
   loaded += 100 / 3;
@@ -93,11 +95,11 @@ function menu() {
   text("4:38", width * 0.8, height * 0.305);
 }
 
-function loadTrack(){
-  if (menuIs === true){
+function loadTrack() {
+  if (menuIs === true) {
     menu();
   }
-  else{
+  else {
     scrollingBackground();
     for (let i = 0; i < songOneNotes.length; i++) {
       songOneNotes[i].display();
@@ -114,8 +116,12 @@ function mouseClicked() {
       songOneNotes[i].display();
       songOneNotes[i].move();
     }
+    if (minutes === 5 && seconds === 24){
+      menuIs = true;
+    }
     cueSongOne();
     songOne.play();
+    timerStart = Date.now();
     songTwo.stop();
   }
   // if mouse clikcs on song2
@@ -133,133 +139,146 @@ function scrollingBackground() {
   rect(width * 0.1, 0, width * 0.441, height * 0.85);
   fill("#151922");
   rect(width * 0.1, height * 0.85, width * 0.111, height);
-  text("s",width*0.155,height*0.95);
+  text("s", width * 0.155, height * 0.95);
   rect(width * 0.21, height * 0.85, width * 0.111, height);
-  text("d",width*0.265,height*0.95);
+  text("d", width * 0.265, height * 0.95);
   rect(width * 0.32, height * 0.85, width * 0.111, height);
-  text("k",width*0.375,height*0.95);
+  text("k", width * 0.375, height * 0.95);
   rect(width * 0.43, height * 0.85, width * 0.111, height);
-  text("l",width*0.485,height*0.95);
+  text("l", width * 0.485, height * 0.95);
   stroke(200);
   strokeWeight(3);
   line(width * 0.21, 0, width * 0.21, height);
   line(width * 0.32, 0, width * 0.32, height);
   line(width * 0.43, 0, width * 0.43, height);
-  line(width*0.1,position,width*0.54,position);
-  position += height/BPM;
+  line(width * 0.1, position, width * 0.54, position);
+  position += height / BPM;
   if (position > height) {
     position = 0;
   }
+  songStats();
+}
+
+function songStats() {
+  let elaspedTime = ((Date.now() - timerStart)/1000).toFixed(1);
+  print(elaspedTime);
+  if (elaspedTime >= 1) {
+    seconds++;
+    timerStart = Date.now();
+    if (seconds % 60 === 0) {
+      seconds = 0;
+      minutes++;
+    }
+  }
   text(score, width * 0.75, height * 0.2);
-  text(multiplier.toFixed(2),width*0.75,height*0.3);
-  let songOneLength = songOne.duration()/60 - 0.17 ;
-  text("Duration:" + songOneLength.toFixed(2),width*0.75,height*0.1);
+  text(multiplier.toFixed(2), width * 0.75, height * 0.3);
+  text(minutes + ":" + seconds + "/" + "5:24", width * 0.75, height * 0.1);
 }
 
-function cueSongOne(){
-  songOne.addCue(0,createLane4);
-  songOne.addCue(SPB*1,createLane4);
-  songOne.addCue(SPB*2,createLane3);
-  songOne.addCue(SPB*3,createLane3);
-  songOne.addCue(SPB*4,createLane3);
-  songOne.addCue(SPB*5,createLane3);
-  songOne.addCue(SPB*6,createLane2);
-  songOne.addCue(SPB*7,createLane2);
-  songOne.addCue(SPB*8,createLane1);
-  songOne.addCue(SPB*9,createLane1);
-  songOne.addCue(SPB*10,createLane1);
-  songOne.addCue(SPB*11,createLane1);
-  songOne.addCue(SPB*12,createLane1);
-  songOne.addCue(SPB*13,createLane1);
-  songOne.addCue(SPB*14,createLane1);
-  songOne.addCue(SPB*15,createLane1);
-  songOne.addCue(SPB*16,createLane4);
-  songOne.addCue(SPB*17,createLane4);
-  songOne.addCue(SPB*18,createLane3);
-  songOne.addCue(SPB*19,createLane3);
-  songOne.addCue(SPB*20,createLane3);
-  songOne.addCue(SPB*21,createLane3);
-  songOne.addCue(SPB*22,createLane2);
-  songOne.addCue(SPB*23,createLane2);
-  songOne.addCue(SPB*24,createLane1);
-  songOne.addCue(SPB*25,createLane1);
-  songOne.addCue(SPB*26,createLane1);
-  songOne.addCue(SPB*27,createLane1);
-  songOne.addCue(SPB*28,createLane1);
-  songOne.addCue(SPB*29,createLane1);
-  songOne.addCue(SPB*30,createLane1);
-  songOne.addCue(SPB*31,createLane1);
-  songOne.addCue(SPB*32,createLane4);
-  songOne.addCue(SPB*33,createLane4);
-  songOne.addCue(SPB*34,createLane3);
-  songOne.addCue(SPB*35,createLane3);
-  songOne.addCue(SPB*36,createLane3);
-  songOne.addCue(SPB*37,createLane3);
-  songOne.addCue(SPB*38,createLane2);
-  songOne.addCue(SPB*39,createLane2);
-  songOne.addCue(SPB*40,createLane1);
-  songOne.addCue(SPB*41,createLane1);
-  songOne.addCue(SPB*42,createLane1);
-  songOne.addCue(SPB*43,createLane1);
-  songOne.addCue(SPB*44,createLane1);
-  songOne.addCue(SPB*45,createLane1);
-  songOne.addCue(SPB*46,createLane1);
-  songOne.addCue(SPB*47,createLane1);
-  songOne.addCue(SPB*47.25,createLane3);
-  songOne.addCue(SPB*48,createLane4);
-  songOne.addCue(SPB*49,createLane4);
-  songOne.addCue(SPB*50,createLane3);
-  songOne.addCue(SPB*51,createLane3);
-  songOne.addCue(SPB*52,createLane3);
-  songOne.addCue(SPB*53,createLane3);
-  songOne.addCue(SPB*54,createLane2);
-  songOne.addCue(SPB*55,createLane2);
-  songOne.addCue(SPB*56,createLane1);
-  songOne.addCue(SPB*57,createLane1);
-  songOne.addCue(SPB*58,createLane1);
-  songOne.addCue(SPB*59,createLane1);
-  songOne.addCue(SPB*60,createLane1);
-  songOne.addCue(SPB*61,createLane1);
-  songOne.addCue(SPB*62,createLane1);
-  songOne.addCue(SPB*63,createLane1);
-  songOne.addCue(SPB*63.25,createLane3);
-  songOne.addCue(SPB*63.5,createLane2);
-  songOne.addCue(SPB*64,createLane4);
-  songOne.addCue(SPB*65,createLane4);
-  songOne.addCue(SPB*66,createLane3);
-  songOne.addCue(SPB*67,createLane3);
-  songOne.addCue(SPB*68,createLane3);
-  songOne.addCue(SPB*69,createLane3);
-  songOne.addCue(SPB*70,createLane2);
-  songOne.addCue(SPB*71,createLane2);
-  songOne.addCue(SPB*72,createLane1);
-  songOne.addCue(SPB*73,createLane1);
-  songOne.addCue(SPB*74,createLane1);
-  songOne.addCue(SPB*75,createLane1);
-  songOne.addCue(SPB*76,createLane1);
-  songOne.addCue(SPB*77,createLane1);
-  songOne.addCue(SPB*78,createLane1);
-  songOne.addCue(SPB*79,createLane1);
-  songOne.addCue(SPB*79.25,createLane3);
-  songOne.addCue(SPB*79.5,createLane2);
+function cueSongOne() {
+  songOne.addCue(0, createLane4);
+  songOne.addCue(SPB * 1, createLane4);
+  songOne.addCue(SPB * 2, createLane3);
+  songOne.addCue(SPB * 3, createLane3);
+  songOne.addCue(SPB * 4, createLane3);
+  songOne.addCue(SPB * 5, createLane3);
+  songOne.addCue(SPB * 6, createLane2);
+  songOne.addCue(SPB * 7, createLane2);
+  songOne.addCue(SPB * 8, createLane1);
+  songOne.addCue(SPB * 9, createLane1);
+  songOne.addCue(SPB * 10, createLane1);
+  songOne.addCue(SPB * 11, createLane1);
+  songOne.addCue(SPB * 12, createLane1);
+  songOne.addCue(SPB * 13, createLane1);
+  songOne.addCue(SPB * 14, createLane1);
+  songOne.addCue(SPB * 15, createLane1);
+  songOne.addCue(SPB * 16, createLane4);
+  songOne.addCue(SPB * 17, createLane4);
+  songOne.addCue(SPB * 18, createLane3);
+  songOne.addCue(SPB * 19, createLane3);
+  songOne.addCue(SPB * 20, createLane3);
+  songOne.addCue(SPB * 21, createLane3);
+  songOne.addCue(SPB * 22, createLane2);
+  songOne.addCue(SPB * 23, createLane2);
+  songOne.addCue(SPB * 24, createLane1);
+  songOne.addCue(SPB * 25, createLane1);
+  songOne.addCue(SPB * 26, createLane1);
+  songOne.addCue(SPB * 27, createLane1);
+  songOne.addCue(SPB * 28, createLane1);
+  songOne.addCue(SPB * 29, createLane1);
+  songOne.addCue(SPB * 30, createLane1);
+  songOne.addCue(SPB * 31, createLane1);
+  songOne.addCue(SPB * 32, createLane4);
+  songOne.addCue(SPB * 33, createLane4);
+  songOne.addCue(SPB * 34, createLane3);
+  songOne.addCue(SPB * 35, createLane3);
+  songOne.addCue(SPB * 36, createLane3);
+  songOne.addCue(SPB * 37, createLane3);
+  songOne.addCue(SPB * 38, createLane2);
+  songOne.addCue(SPB * 39, createLane2);
+  songOne.addCue(SPB * 40, createLane1);
+  songOne.addCue(SPB * 41, createLane1);
+  songOne.addCue(SPB * 42, createLane1);
+  songOne.addCue(SPB * 43, createLane1);
+  songOne.addCue(SPB * 44, createLane1);
+  songOne.addCue(SPB * 45, createLane1);
+  songOne.addCue(SPB * 46, createLane1);
+  songOne.addCue(SPB * 47, createLane1);
+  songOne.addCue(SPB * 47.25, createLane3);
+  songOne.addCue(SPB * 48, createLane4);
+  songOne.addCue(SPB * 49, createLane4);
+  songOne.addCue(SPB * 50, createLane3);
+  songOne.addCue(SPB * 51, createLane3);
+  songOne.addCue(SPB * 52, createLane3);
+  songOne.addCue(SPB * 53, createLane3);
+  songOne.addCue(SPB * 54, createLane2);
+  songOne.addCue(SPB * 55, createLane2);
+  songOne.addCue(SPB * 56, createLane1);
+  songOne.addCue(SPB * 57, createLane1);
+  songOne.addCue(SPB * 58, createLane1);
+  songOne.addCue(SPB * 59, createLane1);
+  songOne.addCue(SPB * 60, createLane1);
+  songOne.addCue(SPB * 61, createLane1);
+  songOne.addCue(SPB * 62, createLane1);
+  songOne.addCue(SPB * 63, createLane1);
+  songOne.addCue(SPB * 63.25, createLane3);
+  songOne.addCue(SPB * 63.5, createLane2);
+  songOne.addCue(SPB * 64, createLane4);
+  songOne.addCue(SPB * 65, createLane4);
+  songOne.addCue(SPB * 66, createLane3);
+  songOne.addCue(SPB * 67, createLane3);
+  songOne.addCue(SPB * 68, createLane3);
+  songOne.addCue(SPB * 69, createLane3);
+  songOne.addCue(SPB * 70, createLane2);
+  songOne.addCue(SPB * 71, createLane2);
+  songOne.addCue(SPB * 72, createLane1);
+  songOne.addCue(SPB * 73, createLane1);
+  songOne.addCue(SPB * 74, createLane1);
+  songOne.addCue(SPB * 75, createLane1);
+  songOne.addCue(SPB * 76, createLane1);
+  songOne.addCue(SPB * 77, createLane1);
+  songOne.addCue(SPB * 78, createLane1);
+  songOne.addCue(SPB * 79, createLane1);
+  songOne.addCue(SPB * 79.25, createLane3);
+  songOne.addCue(SPB * 79.5, createLane2);
 }
 
-function createLane1(){
+function createLane1() {
   songOneNotes.push(new Game1(width * 0.155, 0));
   print("Lane 1 Cued");
 }
 
-function createLane2(){
+function createLane2() {
   songOneNotes.push(new Game1(width * 0.265, 0));
   print("Lane 2 Cued");
 }
 
-function createLane3(){
+function createLane3() {
   songOneNotes.push(new Game1(width * 0.375, 0));
   print("Lane 3 Cued");
 }
 
-function createLane4(){
+function createLane4() {
   songOneNotes.push(new Game1(width * 0.485, 0));
   print("Lane 4 Cued");
 }
@@ -268,7 +287,7 @@ class Game1 {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.s = height/BPM;
+    this.s = height / BPM;
     this.hit = false;
     this.delete = false;
   }
@@ -291,9 +310,9 @@ class Game1 {
           if (this.hit === false) {
             hitSound.play();
             this.hit = true;
-            floor(score += 25*multiplier);
+            floor(score += 25 * multiplier);
             multiplier += 0.15;
-            if(multiplier >= 4){
+            if (multiplier >= 4) {
               multiplier = 4;
             }
             this.delete = true;
@@ -305,9 +324,9 @@ class Game1 {
           if (this.hit === false) {
             hitSound.play();
             this.hit = true;
-            floor(score += 25*multiplier);
+            floor(score += 25 * multiplier);
             multiplier += 0.15;
-            if(multiplier >= 4){
+            if (multiplier >= 4) {
               multiplier = 4;
             }
             this.delete = true;
@@ -319,9 +338,9 @@ class Game1 {
           if (this.hit === false) {
             hitSound.play();
             this.hit = true;
-            floor(score += 25*multiplier);
+            floor(score += 25 * multiplier);
             multiplier += 0.15;
-            if(multiplier >= 4){
+            if (multiplier >= 4) {
               multiplier = 4;
             }
             this.delete = true;
@@ -333,9 +352,9 @@ class Game1 {
           if (this.hit === false) {
             hitSound.play();
             this.hit = true;
-            floor(score += 25*multiplier);
+            floor(score += 25 * multiplier);
             multiplier += 0.15;
-            if(multiplier >= 4){
+            if (multiplier >= 4) {
               multiplier = 4;
             }
             this.delete = true;
